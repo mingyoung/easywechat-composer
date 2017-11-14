@@ -1,0 +1,26 @@
+{
+    "name": "easywechat-composer/easywechat-composer",
+    "description": "The composer plugin for EasyWeChat",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MINGYOUNG",
+            "email": "mingyoungcheung@gmail.com"
+        }
+    ],
+    "require": {
+        "composer-plugin-api": "^1.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyWeChatComposer\\": ""
+        }
+    },
+    "extra": {
+        "class": "EasyWeChatComposer\\Plugin"
+    }
+}
