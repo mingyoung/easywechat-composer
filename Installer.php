@@ -17,7 +17,7 @@ use Composer\Repository\InstalledRepositoryInterface;
 
 class Installer extends LibraryInstaller
 {
-    const EXTENSION_FILE = 'overtrue/wechat/extensions/packages.php';
+    const EXTENSION_FILE = 'easywechat-composer/easywechat-composer/extensions.php';
     const PACKAGE_TYPE = 'easywechat-extension';
     const EXTRA_OBSERVER_NAME = 'observers';
 
@@ -132,13 +132,11 @@ class Installer extends LibraryInstaller
             return $this->extensions;
         }
 
-        $this->filesystem->ensureDirectoryExists(dirname($this->getExtensionPath()));
-
         if (!file_exists($this->getExtensionPath())) {
             $this->build();
         }
 
-        return $this->extensions = require $this->getExtensionPath();
+        return $this->extensions = file_exists($this->getExtensionPath()) ? require $this->getExtensionPath() : [];
     }
 
     /**
