@@ -12,10 +12,13 @@
 namespace EasyWeChatComposer;
 
 use Composer\Composer;
+use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
+use Composer\Script\Event as ScriptEvent;
+use Composer\Script\ScriptEvents;
 
-class Plugin implements PluginInterface
+class Plugin implements PluginInterface, EventSubscriberInterface
 {
     /**
      * Apply plugin modifications to Composer.
@@ -25,6 +28,29 @@ class Plugin implements PluginInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $composer->getInstallationManager()->addInstaller(new Installer($io, $composer));
+    }
+
+    /**
+     * Listen events.
+     *
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            ScriptEvents::POST_AUTOLOAD_DUMP => 'postAutoloadDump',
+        ];
+    }
+
+    /**
+     * @param \Composer\Script\Event $event
+     */
+    public function postAutoloadDump(ScriptEvent $event)
+    {
+        $manifest = new ManifestManager(
+            $vendorPath = $event->getComposer()->getConfig()->get('vendor-dir'), $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
+        );
+
+        $manifest->unlink()->build();
     }
 }
