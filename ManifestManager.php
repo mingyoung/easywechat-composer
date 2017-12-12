@@ -73,7 +73,7 @@ class ManifestManager
      *
      * @return array
      */
-    public function map(array $packages): array
+    protected function map(array $packages): array
     {
         $manifest = [];
 
@@ -93,7 +93,7 @@ class ManifestManager
      *
      * @param array $manifest
      */
-    public function write(array $manifest)
+    protected function write(array $manifest)
     {
         file_put_contents(
             $this->manifestPath, '<?php return '.var_export($manifest, true).';'
