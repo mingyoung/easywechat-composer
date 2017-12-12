@@ -47,8 +47,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function postAutoloadDump(ScriptEvent $event)
     {
+        $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
-            $vendorPath = $event->getComposer()->getConfig()->get('vendor-dir'), $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
+            $vendorPath, $vendorPath . '/easywechat-composer/easywechat-composer/extensions.php'
         );
 
         $manifest->unlink()->build();
