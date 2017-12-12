@@ -12,13 +12,13 @@
 namespace EasyWeChatComposer;
 
 use Composer\Composer;
-use Composer\Script\Event;
-use Composer\IO\IOInterface;
-use Composer\Script\ScriptEvents;
-use Composer\Plugin\PluginInterface;
+use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
-use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\IO\IOInterface;
+use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -60,7 +60,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function postAutoloadDump(Event $event)
     {
-        if (!$this->activated) return;
+        if (!$this->activated) {
+            return;
+        }
         $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
             $vendorPath, $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
