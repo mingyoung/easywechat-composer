@@ -49,7 +49,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
-            $vendorPath, $vendorPath . '/easywechat-composer/easywechat-composer/extensions.php'
+            $vendorPath, $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
         );
 
         $manifest->unlink()->build();
