@@ -98,5 +98,19 @@ class ManifestManager
         file_put_contents(
             $this->manifestPath, '<?php return '.var_export($manifest, true).';'
         );
+        $this->opcacheInvalidate($this->manifestPath);
+    }
+    
+    /**
+     * Disable opcache
+     * @param string $file
+     * @return void
+     */
+    protected function opcacheInvalidate($file)
+    {
+        // invalidate opcache of extensions.php if exists
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($file, true);
+        }
     }
 }
