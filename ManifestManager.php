@@ -14,6 +14,7 @@ namespace EasyWeChatComposer;
 class ManifestManager
 {
     const PACKAGE_TYPE = 'easywechat-extension';
+
     const EXTRA_OBSERVER = 'observers';
 
     /**
@@ -78,7 +79,7 @@ class ManifestManager
         $manifest = [];
 
         foreach ($packages as $package) {
-            if ($package['type'] === self::PACKAGE_TYPE) {
+            if (self::PACKAGE_TYPE === $package['type']) {
                 $manifest[$package['name']] = [
                     self::EXTRA_OBSERVER => $package['extra'][self::EXTRA_OBSERVER] ?? [],
                 ];
@@ -100,11 +101,11 @@ class ManifestManager
         );
         $this->opcacheInvalidate($this->manifestPath);
     }
-    
+
     /**
-     * Disable opcache
+     * Disable opcache.
+     *
      * @param string $file
-     * @return void
      */
     protected function opcacheInvalidate($file)
     {
