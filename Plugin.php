@@ -17,7 +17,7 @@ use Composer\IO\IOInterface;
 use Composer\Script\ScriptEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvent;
-use Composer\Installer\PackageEvents
+use Composer\Installer\PackageEvents;
 use Composer\EventDispatcher\EventSubscriberInterface;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
