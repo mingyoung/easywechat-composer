@@ -6,7 +6,7 @@
 This is the composer plugin for [EasyWeChat](https://github.com/overtrue/wechat).
 
 [![Latest Stable Version](https://poser.pugx.org/easywechat-composer/easywechat-composer/v/stable.png)](https://packagist.org/packages/easywechat-composer/easywechat-composer)
-
+[![Total Downloads](https://poser.pugx.org/easywechat-composer/easywechat-composer/downloads.png)](https://packagist.org/packages/easywechat-composer/easywechat-composer)
 
 Usage
 ---
