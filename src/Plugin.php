@@ -52,7 +52,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function prePackageUninstall(PackageEvent $event)
     {
-        $this->activated = false;
+        if ($event->getOperation()->getPackage()->getName() === 'overtrue/wechat') {
+            $this->activated = false;
+        }
     }
 
     /**
@@ -63,6 +65,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if (!$this->activated) {
             return;
         }
+
         $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
             $vendorPath, $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
