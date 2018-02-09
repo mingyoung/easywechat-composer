@@ -52,7 +52,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function prePackageUninstall(PackageEvent $event)
     {
-        if ($event->getOperation()->getPackage()->getName() === 'overtrue/wechat') {
+        if ('overtrue/wechat' === $event->getOperation()->getPackage()->getName()) {
             $this->activated = false;
         }
     }
