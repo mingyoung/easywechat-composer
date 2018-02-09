@@ -11,8 +11,8 @@
 
 namespace EasyWeChatComposer;
 
-use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 
 class Extension
 {
@@ -44,7 +44,7 @@ class Extension
         if (file_exists($packages = __DIR__.'/extensions.php')) {
             foreach (require $packages as $name => $extra) {
                 foreach ($extra['observers'] ?? [] as $observer) {
-                    if (!$disableAll && !in_array($observer, $disableObservers, true) && $this->validateObserver($observer)) {
+                    if (! $disableAll && ! in_array($observer, $disableObservers, true) && $this->validateObserver($observer)) {
                         $observers[] = [$observer, $this->getObserverCondition($observer)];
                     }
                 }
@@ -64,7 +64,7 @@ class Extension
     protected function validateObserver($observer): bool
     {
         return in_array(EventHandlerInterface::class, class_implements($observer), true) &&
-            ($exists = method_exists($observer, 'getAccessor')) && (in_array(get_class($this->app), (array) $observer::getAccessor(), true)) || !$exists;
+            ($exists = method_exists($observer, 'getAccessor')) && (in_array(get_class($this->app), (array) $observer::getAccessor(), true)) || ! $exists;
     }
 
     /**
