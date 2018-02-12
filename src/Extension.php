@@ -25,11 +25,22 @@ class Extension
     protected $app;
 
     /**
+     * @var string
+     */
+    protected $manifestPath;
+
+    /**
+     * @var array|null
+     */
+    protected $manifest;
+
+    /**
      * @param \EasyWeChat\Kernel\ServiceContainer $app
      */
     public function __construct(ServiceContainer $app)
     {
         $this->app = $app;
+        $this->manifestPath = __DIR__.'/../extensions.php';
     }
 
     /**
@@ -39,21 +50,17 @@ class Extension
      */
     public function observers(): array
     {
+        if ($this->shouldIgnore()) {
+            return [];
+        }
+
         $observers = [];
 
-        if ($this->shouldIgnore()) {
-            return $observers;
+        foreach ($this->getManifest() as $name => $extra) {
+            $observers = array_merge($observers, $extra['observers'] ?? []);
         }
 
-        foreach (require $packages as $name => $extra) {
-            foreach ($extra['observers'] ?? [] as $observer) {
-                if ($this->validateObserver($observer)) {
-                    $observers[] = [$observer, $this->getObserverCondition($observer)];
-                }
-            }
-        }
-
-        return $observers;
+        return array_map([$this, 'listObserver'], array_filter($observers, [$this, 'validateObserver']));
     }
 
     /**
@@ -63,7 +70,7 @@ class Extension
      */
     protected function isDisable($observer): bool
     {
-        return in_array($observer, $this->app->config->get('disable_observers', []), true);
+        return in_array($observer, $this->app->config->get('disable_observers', []));
     }
 
     /**
@@ -71,9 +78,9 @@ class Extension
      *
      * @return bool
      */
-    protected function shouldIgnore()
+    protected function shouldIgnore(): bool
     {
-        return !file_exists(__DIR__.'/../extensions.php') || $this->isDisable('*');
+        return !file_exists($this->manifestPath) || $this->isDisable('*');
     }
 
     /**
@@ -97,7 +104,7 @@ class Extension
      *
      * @return bool
      */
-    protected function accessible($observer)
+    protected function accessible($observer): bool
     {
         if (!method_exists($observer, 'getAccessor')) {
             return true;
@@ -107,14 +114,28 @@ class Extension
     }
 
     /**
-     * Get the observer's condition.
-     *
      * @param mixed $observer
      *
-     * @return string|int
+     * @return array
      */
-    protected function getObserverCondition($observer)
+    protected function listObserver($observer): array
     {
-        return method_exists($observer, 'onCondition') ? $observer::onCondition() : '*';
+        $condition = method_exists($observer, 'onCondition') ? $observer::onCondition() : '*';
+
+        return [$observer, $condition];
+    }
+
+    /**
+     * Get the easywechat manifest.
+     *
+     * @return array
+     */
+    protected function getManifest(): array
+    {
+        if (!is_null($this->manifest)) {
+            return $this->manifest;
+        }
+
+        return $this->manifest = file_exists($this->manifestPath) ? require $this->manifestPath : [];
     }
 }

@@ -83,10 +83,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             return;
         }
 
-        $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
-            $vendorPath,
-            $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
+            rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/')
         );
 
         $manifest->unlink()->build();
