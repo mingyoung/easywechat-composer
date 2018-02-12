@@ -11,6 +11,7 @@
 
 namespace EasyWeChatComposer;
 
+use ReflectionClass;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 
@@ -38,20 +39,38 @@ class Extension
     {
         $observers = [];
 
-        $disableObservers = $this->app->config->get('disable_observers', []);
-        $disableAll = in_array('*', $disableObservers, true);
+        if ($this->shouldIgnore()) {
+            return $observers;
+        }
 
-        if (file_exists($packages = __DIR__.'/extensions.php')) {
-            foreach (require $packages as $name => $extra) {
-                foreach ($extra['observers'] ?? [] as $observer) {
-                    if (! $disableAll && ! in_array($observer, $disableObservers, true) && $this->validateObserver($observer)) {
-                        $observers[] = [$observer, $this->getObserverCondition($observer)];
-                    }
+        foreach (require $packages as $name => $extra) {
+            foreach ($extra['observers'] ?? [] as $observer) {
+                if ($this->validateObserver($observer)) {
+                    $observers[] = [$observer, $this->getObserverCondition($observer)];
                 }
             }
         }
 
         return $observers;
+    }
+
+    /**
+     * @param  mixed  $observer
+     * @return boolean
+     */
+    protected function isDisable($observer): bool
+    {
+        return in_array($observer, $this->app->config->get('disable_observers', []), true);
+    }
+
+    /**
+     * Get the observers should be ignore.
+     *
+     * @return bool
+     */
+    protected function shouldIgnore()
+    {
+        return ! file_exists(__DIR__.'/../extensions.php') || $this->isDisable('*');
     }
 
     /**
@@ -63,8 +82,25 @@ class Extension
      */
     protected function validateObserver($observer): bool
     {
-        return in_array(EventHandlerInterface::class, class_implements($observer), true) &&
-            ($exists = method_exists($observer, 'getAccessor')) && (in_array(get_class($this->app), (array) $observer::getAccessor(), true)) || ! $exists;
+        return ! $this->isDisable($observer)
+            && (new ReflectionClass($observer))->implementsInterface(EventHandlerInterface::class)
+            && $this->accessible($observer);
+    }
+
+    /**
+     * Determine whether the given observer is accessible.
+     *
+     * @param  string $observer
+     *
+     * @return bool
+     */
+    protected function accessible($observer)
+    {
+        if (! method_exists($observer, 'getAccessor')) {
+            return true;
+        }
+
+        return in_array(get_class($this->app), (array) $observer::getAccessor());
     }
 
     /**

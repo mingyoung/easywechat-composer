@@ -12,26 +12,38 @@
 namespace EasyWeChatComposer;
 
 use Composer\Composer;
-use Composer\Script\Event;
-use Composer\IO\IOInterface;
-use Composer\Script\ScriptEvents;
-use Composer\Installer\PackageEvent;
-use Composer\Plugin\PluginInterface;
-use Composer\Installer\PackageEvents;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\IO\IOInterface;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\PackageEvents;
+use Composer\Plugin\Capable;
+use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 
-class Plugin implements PluginInterface, EventSubscriberInterface
+class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {
     protected $activated = true;
 
     /**
      * Apply plugin modifications to Composer.
      *
-     * @param Composer    $composer
-     * @param IOInterface $io
+     * @param \Composer\Composer    $composer
+     * @param \Composer\IO\IOInterface $io
      */
     public function activate(Composer $composer, IOInterface $io)
     {
+        //
+    }
+
+    /**
+     * @return array
+     */
+    public function getCapabilities()
+    {
+        return [
+            'Composer\Plugin\Capability\CommandProvider' => 'EasyWeChatComposer\Commands\Provider',
+        ];
     }
 
     /**

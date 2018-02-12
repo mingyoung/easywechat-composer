@@ -78,12 +78,12 @@ class ManifestManager
     {
         $manifest = [];
 
+        $packages = array_filter($packages, function ($package) {
+            return $package['type'] === self::PACKAGE_TYPE;
+        });
+
         foreach ($packages as $package) {
-            if (self::PACKAGE_TYPE === $package['type']) {
-                $manifest[$package['name']] = [
-                    self::EXTRA_OBSERVER => $package['extra'][self::EXTRA_OBSERVER] ?? [],
-                ];
-            }
+            $manifest[$package['name']] = [self::EXTRA_OBSERVER => $package['extra'][self::EXTRA_OBSERVER] ?? []];
         }
 
         return $manifest;
@@ -99,17 +99,17 @@ class ManifestManager
         file_put_contents(
             $this->manifestPath, '<?php return '.var_export($manifest, true).';'
         );
-        $this->opcacheInvalidate($this->manifestPath);
+
+        $this->invalidate($this->manifestPath);
     }
 
     /**
-     * Disable opcache.
+     * Invalidate the given file.
      *
      * @param string $file
      */
-    protected function opcacheInvalidate($file)
+    protected function invalidate($file)
     {
-        // invalidate opcache of extensions.php if exists
         if (function_exists('opcache_invalidate')) {
             opcache_invalidate($file, true);
         }

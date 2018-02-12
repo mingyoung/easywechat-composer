@@ -14,11 +14,17 @@
         "composer-plugin-api": "^1.0"
     },
     "require-dev": {
-        "composer/composer": "^1.0"
+        "composer/composer": "^1.0",
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
             "EasyWeChatComposer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EasyWeChatComposer\\Tests\\": "tests/"
         }
     },
     "extra": {
