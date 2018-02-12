@@ -12,14 +12,14 @@
 namespace EasyWeChatComposer;
 
 use Composer\Composer;
-use Composer\EventDispatcher\EventSubscriberInterface;
-use Composer\IO\IOInterface;
-use Composer\Installer\PackageEvent;
-use Composer\Installer\PackageEvents;
-use Composer\Plugin\Capable;
-use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
+use Composer\IO\IOInterface;
+use Composer\Plugin\Capable;
 use Composer\Script\ScriptEvents;
+use Composer\Installer\PackageEvent;
+use Composer\Plugin\PluginInterface;
+use Composer\Installer\PackageEvents;
+use Composer\EventDispatcher\EventSubscriberInterface;
 
 class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {

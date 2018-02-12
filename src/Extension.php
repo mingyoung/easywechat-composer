@@ -56,7 +56,7 @@ class Extension
 
     /**
      * @param  mixed  $observer
-     * @return boolean
+     * @return bool
      */
     protected function isDisable($observer): bool
     {
