@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the EasyWeChatComposer.
  *
@@ -97,7 +99,8 @@ class ManifestManager
     protected function write(array $manifest)
     {
         file_put_contents(
-            $this->manifestPath, '<?php return '.var_export($manifest, true).';'
+            $this->manifestPath,
+            '<?php return '.var_export($manifest, true).';'
         );
 
         $this->invalidate($this->manifestPath);

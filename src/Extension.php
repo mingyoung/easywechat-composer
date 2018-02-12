@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the EasyWeChatComposer.
  *
@@ -11,9 +13,9 @@
 
 namespace EasyWeChatComposer;
 
-use ReflectionClass;
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
+use EasyWeChat\Kernel\ServiceContainer;
+use ReflectionClass;
 
 class Extension
 {
@@ -55,7 +57,8 @@ class Extension
     }
 
     /**
-     * @param  mixed  $observer
+     * @param mixed $observer
+     *
      * @return bool
      */
     protected function isDisable($observer): bool
@@ -70,7 +73,7 @@ class Extension
      */
     protected function shouldIgnore()
     {
-        return ! file_exists(__DIR__.'/../extensions.php') || $this->isDisable('*');
+        return !file_exists(__DIR__.'/../extensions.php') || $this->isDisable('*');
     }
 
     /**
@@ -82,7 +85,7 @@ class Extension
      */
     protected function validateObserver($observer): bool
     {
-        return ! $this->isDisable($observer)
+        return !$this->isDisable($observer)
             && (new ReflectionClass($observer))->implementsInterface(EventHandlerInterface::class)
             && $this->accessible($observer);
     }
@@ -90,13 +93,13 @@ class Extension
     /**
      * Determine whether the given observer is accessible.
      *
-     * @param  string $observer
+     * @param string $observer
      *
      * @return bool
      */
     protected function accessible($observer)
     {
-        if (! method_exists($observer, 'getAccessor')) {
+        if (!method_exists($observer, 'getAccessor')) {
             return true;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the EasyWeChatComposer.
  *
@@ -11,8 +13,8 @@
 
 namespace EasyWeChatComposer\Tests;
 
-use PHPUnit\Framework\TestCase;
 use EasyWeChatComposer\ManifestManager;
+use PHPUnit\Framework\TestCase;
 
 class ManifestManagerTest extends TestCase
 {

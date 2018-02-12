@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the EasyWeChatComposer.
  *
@@ -30,14 +32,14 @@ class ExtensionsCommand extends BaseCommand
     /**
      * Executes the current command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $extensions = require __DIR__.'/../../extensions.php';
 
-        if (empty($extensions) || ! is_array($extensions)) {
+        if (empty($extensions) || !is_array($extensions)) {
             return $output->writeln('<info>No extension installed.</info>');
         }
 
@@ -49,8 +51,8 @@ class ExtensionsCommand extends BaseCommand
     }
 
     /**
-     * @param  string $name
-     * @param  array $extension
+     * @param string $name
+     * @param array  $extension
      *
      * @return array
      */

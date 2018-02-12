@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the EasyWeChatComposer.
  *
@@ -12,23 +14,26 @@
 namespace EasyWeChatComposer;
 
 use Composer\Composer;
-use Composer\Script\Event;
+use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Plugin\Capable;
-use Composer\Script\ScriptEvents;
-use Composer\Installer\PackageEvent;
 use Composer\Plugin\PluginInterface;
-use Composer\Installer\PackageEvents;
-use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {
+    /**
+     * @var bool
+     */
     protected $activated = true;
 
     /**
      * Apply plugin modifications to Composer.
      *
-     * @param \Composer\Composer    $composer
+     * @param \Composer\Composer       $composer
      * @param \Composer\IO\IOInterface $io
      */
     public function activate(Composer $composer, IOInterface $io)
@@ -64,7 +69,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable
      */
     public function prePackageUninstall(PackageEvent $event)
     {
-        if ('overtrue/wechat' === $event->getOperation()->getPackage()->getName()) {
+        if ($event->getOperation()->getPackage()->getName() === 'overtrue/wechat') {
             $this->activated = false;
         }
     }
@@ -74,13 +79,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable
      */
     public function postAutoloadDump(Event $event)
     {
-        if (! $this->activated) {
+        if (!$this->activated) {
             return;
         }
 
         $vendorPath = rtrim($event->getComposer()->getConfig()->get('vendor-dir'), '/');
         $manifest = new ManifestManager(
-            $vendorPath, $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
+            $vendorPath,
+            $vendorPath.'/easywechat-composer/easywechat-composer/extensions.php'
         );
 
         $manifest->unlink()->build();
