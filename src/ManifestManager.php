@@ -114,7 +114,7 @@ class ManifestManager
     protected function invalidate($file)
     {
         if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($file, true);
+            @opcache_invalidate($file, true);
         }
     }
 }
