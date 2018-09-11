@@ -26,6 +26,9 @@ class ServiceProvider extends LaravelServiceProvider
     public function boot()
     {
         $this->registerRoutes();
+        $this->publishes([
+            __DIR__.'/config.php' => config_path('easywechat-composer.php'),
+        ]);
     }
 
     /**

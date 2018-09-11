@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace EasyWeChatComposer\Traits;
 
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChatComposer\Delegation;
 use EasyWeChatComposer\EasyWeChat;
 
-trait AggregatesWithEasyWeChatComposer
+trait WithAggregator
 {
     protected function aggregation()
     {
@@ -28,9 +29,10 @@ trait AggregatesWithEasyWeChatComposer
     /**
      * @return bool
      */
-    public function shouldDelegate()
+    public function shouldDelegate($id)
     {
-        return (bool) $this['config']->get('delegation.enabled');
+        return $this['config']->get('delegation.enabled')
+            && $this->offsetGet($id) instanceof BaseClient;
     }
 
     /**

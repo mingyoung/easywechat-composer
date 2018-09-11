@@ -51,6 +51,7 @@ class Hydrate
     {
         $applications = [
             'EasyWeChat\OfficialAccount\Application' => 'OfficialAccount',
+            'EasyWeChat\OpenPlatform\Application' => 'OpenPlatform',
         ];
 
         return Factory::make(

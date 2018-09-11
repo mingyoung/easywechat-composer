@@ -27,14 +27,21 @@ class DelegatesController
      */
     public function __invoke(Request $request, DefaultEncrypter $encrypter)
     {
-        $data = json_decode($encrypter->decrypt($request->get('encrypted')), true);
+        try {
+            $data = json_decode($encrypter->decrypt($request->get('encrypted')), true);
 
-        $hydrate = new Hydrate($data);
+            $hydrate = new Hydrate($data);
 
-        $response = $encrypter->encrypt(
-            json_encode($hydrate->handle())
-        );
+            $response = $encrypter->encrypt(
+                json_encode($hydrate->handle())
+            );
 
-        return response()->json(compact('response'));
+            return response()->json(compact('response'));
+        } catch (\Exception $e) {
+            return [
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+            ];
+        }
     }
 }

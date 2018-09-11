@@ -17,6 +17,7 @@ use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChatComposer\Contracts\Encrypter;
 use EasyWeChatComposer\EasyWeChat;
 use EasyWeChatComposer\Encryption\DefaultEncrypter;
+use EasyWeChatComposer\Exceptions\DelegationException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
@@ -75,6 +76,10 @@ trait MakesHttpRequests
     protected function normalizeResponse($response)
     {
         $result = json_decode((string) $response->getBody(), true);
+
+        if (isset($result['exception'])) {
+            throw (new DelegationException($result['message']))->setException($result['exception']);
+        }
 
         return json_decode($this->getEncrypter()->decrypt($result['response']), true);
     }
