@@ -34,5 +34,7 @@
                 "EasyWeChatComposer\\Laravel\\ServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
