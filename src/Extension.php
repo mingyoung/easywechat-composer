@@ -89,6 +89,8 @@ class Extension
      * @param mixed $observer
      *
      * @return bool
+     *
+     * @throws \ReflectionException
      */
     protected function validateObserver($observer): bool
     {

@@ -1,0 +1,101 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the EasyWeChatComposer.
+ *
+ * (c) mingyoung <mingyoungcheung@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace EasyWeChatComposer\Traits;
+
+use EasyWeChat\Kernel\Traits\ResponseCastable;
+use EasyWeChatComposer\Contracts\Encrypter;
+use EasyWeChatComposer\EasyWeChat;
+use EasyWeChatComposer\Encryption\DefaultEncrypter;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+
+trait MakesHttpRequests
+{
+    use ResponseCastable;
+
+    /**
+     * @var \GuzzleHttp\ClientInterface
+     */
+    protected $httpClient;
+
+    /**
+     * @var \EasyWeChatComposer\Contracts\Encrypter
+     */
+    protected $encrypter;
+
+    /**
+     * @param string $endpoint
+     * @param array  $payload
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function request($endpoint, array $payload)
+    {
+        $response = $this->getHttpClient()->request('POST', $endpoint, [
+            'form_params' => $this->buildFormParams($payload),
+        ]);
+
+        return $this->detectAndCastResponseToType(
+            $this->normalizeResponse($response), $this->app['config']['response_type'] ?? null
+        );
+    }
+
+    /**
+     * @param array $payload
+     *
+     * @return array
+     */
+    protected function buildFormParams($payload)
+    {
+        return [
+            'encrypted' => $this->getEncrypter()->encrypt(json_encode($payload)),
+        ];
+    }
+
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return array
+     */
+    protected function normalizeResponse($response)
+    {
+        $result = json_decode((string) $response->getBody(), true);
+
+        return json_decode($this->getEncrypter()->decrypt($result['response']), true);
+    }
+
+    /**
+     * @return \GuzzleHttp\ClientInterface
+     */
+    protected function getHttpClient(): ClientInterface
+    {
+        return $this->httpClient ?: $this->httpClient = new Client([
+            'base_uri' => $this->app['config']['delegation']['host'],
+        ]);
+    }
+
+    /**
+     * @return \EasyWeChatComposer\Contracts\Encrypter
+     */
+    protected function getEncrypter(): Encrypter
+    {
+        return $this->encrypter ?: $this->encrypter = new DefaultEncrypter(
+            EasyWeChat::getEncryptionKey()
+        );
+    }
+}

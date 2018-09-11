@@ -18,7 +18,9 @@ use Composer\Plugin\Capability\CommandProvider;
 class Provider implements CommandProvider
 {
     /**
-     * @return array
+     * Retrieves an array of commands.
+     *
+     * @return \Composer\Command\BaseCommand[]
      */
     public function getCommands()
     {

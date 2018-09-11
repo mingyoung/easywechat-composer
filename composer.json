@@ -28,6 +28,11 @@
         }
     },
     "extra": {
-        "class": "EasyWeChatComposer\\Plugin"
+        "class": "EasyWeChatComposer\\Plugin",
+        "laravel": {
+            "providers": [
+                "EasyWeChatComposer\\Laravel\\ServiceProvider"
+            ]
+        }
     }
 }
