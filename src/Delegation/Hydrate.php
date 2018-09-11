@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace EasyWeChatComposer\Delegation;
 
-use EasyWeChat\Factory;
+use EasyWeChat;
 
 class Hydrate
 {
@@ -49,13 +49,27 @@ class Hydrate
      */
     protected function createsApplication()
     {
-        $applications = [
-            'EasyWeChat\OfficialAccount\Application' => 'OfficialAccount',
-            'EasyWeChat\OpenPlatform\Application' => 'OpenPlatform',
-        ];
+        $application = $this->attributes['application'];
 
-        return Factory::make(
-            $applications[$this->attributes['application']], $this->attributes['config']
-        );
+        if ($application === EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application::class) {
+            return $this->createsOpenPlatformApplication('officialAccount');
+        }
+
+        if ($application === EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application::class) {
+            return $this->createsOpenPlatformApplication('miniProgram');
+        }
+
+        return new $application($this->attributes['config']);
+    }
+
+    protected function createsOpenPlatformApplication($type)
+    {
+        $config = $this->attributes['config'];
+
+        $authorizerAppId = $config['app_id'];
+
+        $config['app_id'] = $config['component_app_id'];
+
+        return EasyWeChat\Factory::openPlatform($config)->$type($authorizerAppId, $config['refresh_token']);
     }
 }
