@@ -12,8 +12,12 @@ declare(strict_types=1);
  */
 
 return [
+
     'delegation' => [
-        'enabled' => true,
-        'host' => 'http://easywechat.test',
+
+        'enabled' => env('EASYWECHAT_DELEGATION', false),
+
+        'host' => env('EASYWECHAT_DELEGATION_HOST'),
     ],
+
 ];
