@@ -33,7 +33,7 @@ class DelegatesController
             $hydrate = new Hydrate($data);
 
             $response = $encrypter->encrypt(
-                json_encode($hydrate->handle())
+                json_encode($hydrate->handle()->getBodyContents())
             );
 
             return response()->json(compact('response'));

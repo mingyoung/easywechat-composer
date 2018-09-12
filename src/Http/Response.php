@@ -39,7 +39,7 @@ class Response implements Arrayable, JsonSerializable
     {
         $this->resource = $resource;
 
-        UnexpectedCodeException::check($this->toArray());
+        // UnexpectedCodeException::check($this->toArray());
     }
 
     public function offsetExists($offset)

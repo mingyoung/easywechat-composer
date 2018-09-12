@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace EasyWeChatComposer\Delegation;
 
 use EasyWeChat;
+use EasyWeChatComposer\Http\DelegationResponse;
 
 class Hydrate
 {
@@ -59,7 +60,7 @@ class Hydrate
             return $this->createsOpenPlatformApplication('miniProgram');
         }
 
-        return new $application($this->attributes['config']);
+        return new $application($this->buildConfig($this->attributes['config']));
     }
 
     protected function createsOpenPlatformApplication($type)
@@ -70,6 +71,13 @@ class Hydrate
 
         $config['app_id'] = $config['component_app_id'];
 
-        return EasyWeChat\Factory::openPlatform($config)->$type($authorizerAppId, $config['refresh_token']);
+        return EasyWeChat\Factory::openPlatform($this->buildConfig($config))->$type($authorizerAppId, $config['refresh_token']);
+    }
+
+    protected function buildConfig($array)
+    {
+        $config['response_type'] = DelegationResponse::class;
+
+        return $config;
     }
 }
