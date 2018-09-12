@@ -74,7 +74,7 @@ class Hydrate
         return EasyWeChat\Factory::openPlatform($this->buildConfig($config))->$type($authorizerAppId, $config['refresh_token']);
     }
 
-    protected function buildConfig($array)
+    protected function buildConfig(array $config)
     {
         $config['response_type'] = DelegationResponse::class;
 

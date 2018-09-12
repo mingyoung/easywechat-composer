@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace EasyWeChatComposer\Traits;
 
+use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChatComposer\Contracts\Encrypter;
 use EasyWeChatComposer\EasyWeChat;
@@ -51,8 +52,11 @@ trait MakesHttpRequests
             'form_params' => $this->buildFormParams($payload),
         ]);
 
+        $parsed = $this->parseResponse($response);
+
         return $this->detectAndCastResponseToType(
-            $this->normalizeResponse($response), $this->app['config']['response_type'] ?? null
+            $this->getEncrypter()->decrypt($parsed['response']),
+            ($parsed['response_type'] === StreamResponse::class) ? 'raw' : $this->app['config']['response_type']
         );
     }
 
@@ -70,10 +74,10 @@ trait MakesHttpRequests
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     *
+    $response = protected function parseResponse($response); *
      * @return array
      */
-    protected function normalizeResponse($response)
+    protected function parseResponse($response)
     {
         $result = json_decode((string) $response->getBody(), true);
 
@@ -81,7 +85,7 @@ trait MakesHttpRequests
             throw (new DelegationException($result['message']))->setException($result['exception']);
         }
 
-        return json_decode($this->getEncrypter()->decrypt($result['response']), true);
+        return $result;
     }
 
     /**

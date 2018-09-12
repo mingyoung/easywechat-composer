@@ -32,11 +32,12 @@ class DelegatesController
 
             $hydrate = new Hydrate($data);
 
-            $response = $encrypter->encrypt(
-                json_encode($hydrate->handle()->getBodyContents())
-            );
+            $response = $hydrate->handle();
 
-            return response()->json(compact('response'));
+            return response()->json([
+                'response_type' => get_class($response),
+                'response' => $encrypter->encrypt($response->getBodyContents()),
+            ]);
         } catch (\Exception $e) {
             return [
                 'exception' => get_class($e),

@@ -23,21 +23,21 @@ class Response implements Arrayable, JsonSerializable
     /**
      * @var \EasyWeChat\Kernel\Http\Response
      */
-    protected $resource;
+    protected $response;
 
     /**
      * @var array
      */
-    protected $resourceArray;
+    protected $responseArray;
 
     /**
-     * @param \EasyWeChat\Kernel\Http\Response $resource
+     * @param \EasyWeChat\Kernel\Http\Response $response
      *
      * @throws \EasyWeChatComposer\Exceptions\UnexpectedCodeException
      */
-    public function __construct(HttpResponse $resource)
+    public function __construct(HttpResponse $response)
     {
-        $this->resource = $resource;
+        $this->response = $response;
 
         // UnexpectedCodeException::check($this->toArray());
     }
@@ -69,7 +69,7 @@ class Response implements Arrayable, JsonSerializable
      */
     public function toArray()
     {
-        return $this->resourceArray ?: $this->resourceArray = $this->resource->toArray();
+        return $this->responseArray ?: $this->responseArray = $this->response->toArray();
     }
 
     /**
