@@ -74,7 +74,7 @@ trait MakesHttpRequests
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-    $response = protected function parseResponse($response); *
+     *
      * @return array
      */
     protected function parseResponse($response)
