@@ -5,7 +5,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "MINGYOUNG",
+            "name": "张铭阳",
             "email": "mingyoungcheung@gmail.com"
         }
     ],
@@ -28,6 +28,13 @@
         }
     },
     "extra": {
-        "class": "EasyWeChatComposer\\Plugin"
-    }
+        "class": "EasyWeChatComposer\\Plugin",
+        "laravel": {
+            "providers": [
+                "EasyWeChatComposer\\Laravel\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
