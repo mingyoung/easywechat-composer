@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace EasyWeChatComposer\Encryption;
 
 use EasyWeChatComposer\Contracts\Encrypter;
+use EasyWeChatComposer\Exceptions\EncryptException;
 
 class DefaultEncrypter implements Encrypter
 {
@@ -32,6 +33,10 @@ class DefaultEncrypter implements Encrypter
 
         $value = openssl_encrypt($value, $this->cipher, $this->key, 0, $iv);
 
+        if ($value === false) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
+
         $iv = base64_encode($iv);
 
         return base64_encode(json_encode(compact('iv', 'value')));
@@ -43,6 +48,12 @@ class DefaultEncrypter implements Encrypter
 
         $iv = base64_decode($payload['iv']);
 
-        return openssl_decrypt($payload['value'], $this->cipher, $this->key, 0, $iv);
+        $decrypted = openssl_decrypt($payload['value'], $this->cipher, $this->key, 0, $iv);
+
+        if ($decrypted === false) {
+            throw new DecryptException('Could not decrypt the data.');
+        }
+
+        return $decrypted;
     }
 }

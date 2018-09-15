@@ -23,6 +23,7 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude('vendor')
+            ->notPath('src/Laravel/config.php', 'src/Laravel/routes.php')
             ->in(__DIR__)
     )
 ;
