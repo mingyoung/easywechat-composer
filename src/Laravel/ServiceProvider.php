@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the EasyWeChatComposer.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * (c) MINGYOUNG <mingyoungcheung@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -36,6 +36,10 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerRoutes()
     {
+        if (!$this->config('delegation.enabled')) {
+            return;
+        }
+
         Route::prefix('easywechat-composer')->namespace('EasyWeChatComposer\Laravel\Http\Controllers')->group(function () {
             $this->loadRoutesFrom(__DIR__.'/routes.php');
         });

@@ -15,7 +15,7 @@ namespace EasyWeChatComposer\Exceptions;
 
 use Exception;
 
-class EncryptException extends Exception
+class DecryptException extends Exception
 {
     //
 }

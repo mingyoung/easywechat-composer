@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the EasyWeChatComposer.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * (c) MINGYOUNG <mingyoungcheung@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -15,6 +15,8 @@ namespace EasyWeChatComposer\Laravel\Http\Controllers;
 
 use EasyWeChatComposer\Delegation\Hydrate;
 use EasyWeChatComposer\Encryption\DefaultEncrypter;
+use Error;
+use Exception;
 use Illuminate\Http\Request;
 
 class DelegatesController
@@ -38,10 +40,10 @@ class DelegatesController
                 'response_type' => get_class($response),
                 'response' => $encrypter->encrypt($response->getBodyContents()),
             ]);
-        } catch (\Exception $e) {
+        } catch (Error | Exception $exception) {
             return [
-                'exception' => get_class($e),
-                'message' => $e->getMessage(),
+                'exception' => get_class($exception),
+                'message' => $exception->getMessage(),
             ];
         }
     }

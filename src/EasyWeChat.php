@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the EasyWeChatComposer.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * (c) MINGYOUNG <mingyoungcheung@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -22,6 +22,11 @@ class EasyWeChat
      */
     protected static $config = [];
 
+    /**
+     * Encryption key.
+     *
+     * @var string
+     */
     protected static $encryptionKey;
 
     /**
@@ -40,14 +45,26 @@ class EasyWeChat
         return static::$config;
     }
 
-    public static function setEncryptionKey($key)
+    /**
+     * Set encryption key.
+     *
+     * @param string $key
+     *
+     * @return static
+     */
+    public static function setEncryptionKey(string $key)
     {
         static::$encryptionKey = $key;
 
         return new static();
     }
 
-    public static function getEncryptionKey()
+    /**
+     * Get encryption key.
+     *
+     * @return string
+     */
+    public static function getEncryptionKey(): string
     {
         return static::$encryptionKey;
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the EasyWeChatComposer.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * (c) MINGYOUNG <mingyoungcheung@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -13,14 +13,30 @@ declare(strict_types=1);
 
 namespace EasyWeChatComposer\Exceptions;
 
-class DelegationException extends \Exception
+use Exception;
+
+class DelegationException extends Exception
 {
+    /**
+     * @var string
+     */
     protected $exception;
 
+    /**
+     * @param string $exception
+     */
     public function setException($exception)
     {
         $this->exception = $exception;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getException()
+    {
+        return $this->exception;
     }
 }

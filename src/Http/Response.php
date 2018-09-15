@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the EasyWeChatComposer.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * (c) MINGYOUNG <mingyoungcheung@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -15,7 +15,6 @@ namespace EasyWeChatComposer\Http;
 
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Http\Response as HttpResponse;
-use EasyWeChatComposer\Exceptions\UnexpectedCodeException;
 use JsonSerializable;
 
 class Response implements Arrayable, JsonSerializable
@@ -28,35 +27,56 @@ class Response implements Arrayable, JsonSerializable
     /**
      * @var array
      */
-    protected $responseArray;
+    protected $array;
 
     /**
      * @param \EasyWeChat\Kernel\Http\Response $response
-     *
-     * @throws \EasyWeChatComposer\Exceptions\UnexpectedCodeException
      */
     public function __construct(HttpResponse $response)
     {
         $this->response = $response;
-
-        // UnexpectedCodeException::check($this->toArray());
     }
 
+    /**
+     * @see \ArrayAccess::offsetExists
+     *
+     * @param string $offset
+     *
+     * @return bool
+     */
     public function offsetExists($offset)
     {
-        return array_has($this->toArray(), $offset);
+        return isset($this->toArray()[$offset]);
     }
 
+    /**
+     * @see \ArrayAccess::offsetGet
+     *
+     * @param string $offset
+     *
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
-        return array_get($this->toArray(), $offset);
+        return $this->toArray()[$offset] ?? null;
     }
 
+    /**
+     * @see \ArrayAccess::offsetSet
+     *
+     * @param string $offset
+     * @param mixed  $value
+     */
     public function offsetSet($offset, $value)
     {
         //
     }
 
+    /**
+     * @see \ArrayAccess::offsetUnset
+     *
+     * @param string $offset
+     */
     public function offsetUnset($offset)
     {
         //
@@ -69,7 +89,7 @@ class Response implements Arrayable, JsonSerializable
      */
     public function toArray()
     {
-        return $this->responseArray ?: $this->responseArray = $this->response->toArray();
+        return $this->array ?: $this->array = $this->response->toArray();
     }
 
     /**
