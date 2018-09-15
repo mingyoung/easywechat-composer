@@ -37,3 +37,16 @@ Specify server observer classes in the extra section:
 Examples
 ---
 * [easywechat-composer/open-platform-testcase](https://github.com/mingyoung/open-platform-testcase)
+
+## Server Delegation
+
+### Supports
+
+- Laravel
+
+在你**本地项目**的 `.env` 中添加如下配置即可：
+
+```
+EASYWECHAT_DELEGATION=true # false 则不启用
+EASYWECHAT_DELEGATION_HOST=https://example.com # 服务器域名
+```
