@@ -36,10 +36,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerRoutes()
     {
-        if (!$this->config('delegation.enabled')) {
-            return;
-        }
-
         Route::prefix('easywechat-composer')->namespace('EasyWeChatComposer\Laravel\Http\Controllers')->group(function () {
             $this->loadRoutesFrom(__DIR__.'/routes.php');
         });
