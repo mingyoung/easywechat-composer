@@ -15,9 +15,8 @@ namespace EasyWeChatComposer\Laravel\Http\Controllers;
 
 use EasyWeChatComposer\Delegation\Hydrate;
 use EasyWeChatComposer\Encryption\DefaultEncrypter;
-use Error;
-use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class DelegatesController
 {
@@ -40,10 +39,10 @@ class DelegatesController
                 'response_type' => get_class($response),
                 'response' => $encrypter->encrypt($response->getBodyContents()),
             ]);
-        } catch (Error | Exception $exception) {
+        } catch (Throwable $t) {
             return [
-                'exception' => get_class($exception),
-                'message' => $exception->getMessage(),
+                'exception' => get_class($t),
+                'message' => $t->getMessage(),
             ];
         }
     }
