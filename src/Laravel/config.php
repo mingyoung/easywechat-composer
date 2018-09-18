@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 return [
 
+    'encryption' => [
+
+        'key' => env('EASYWECHAT_KEY'),
+
+    ],
+
     'delegation' => [
 
         'enabled' => env('EASYWECHAT_DELEGATION', false),

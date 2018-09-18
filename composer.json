@@ -28,12 +28,7 @@
         }
     },
     "extra": {
-        "class": "EasyWeChatComposer\\Plugin",
-        "laravel": {
-            "providers": [
-                "EasyWeChatComposer\\Laravel\\ServiceProvider"
-            ]
-        }
+        "class": "EasyWeChatComposer\\Plugin"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

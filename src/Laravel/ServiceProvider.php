@@ -49,7 +49,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->configure();
 
         EasyWeChat::setEncryptionKey(
-            $defaultKey = md5_file(base_path('composer.lock'))
+            $defaultKey = $this->config('encryption.key')
         );
 
         EasyWeChat::withDelegation()
