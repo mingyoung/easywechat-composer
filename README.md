@@ -38,15 +38,16 @@ Examples
 ---
 * [easywechat-composer/open-platform-testcase](https://github.com/mingyoung/open-platform-testcase)
 
-## Server Delegation
+Server Delegation
+---
 
-### Supports
+> 目前仅支持 Laravel
 
-- Laravel
+1. 在 `config/app.php` 中添加 `EasyWeChatComposer\Laravel\ServiceProvider::class`
 
-在你**本地项目**的 `.env` 中添加如下配置即可：
+2. 在**本地项目**的 `.env` 文件中添加如下配置：
 
 ```
 EASYWECHAT_DELEGATION=true # false 则不启用
-EASYWECHAT_DELEGATION_HOST=https://example.com # 服务器域名
+EASYWECHAT_DELEGATION_HOST=https://example.com # 线上域名
 ```

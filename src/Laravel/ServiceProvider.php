@@ -15,8 +15,10 @@ namespace EasyWeChatComposer\Laravel;
 
 use EasyWeChatComposer\EasyWeChat;
 use EasyWeChatComposer\Encryption\DefaultEncrypter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use RuntimeException;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -49,7 +51,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->configure();
 
         EasyWeChat::setEncryptionKey(
-            $defaultKey = $this->config('encryption.key')
+            $defaultKey = $this->getKey()
         );
 
         EasyWeChat::withDelegation()
@@ -86,5 +88,25 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         return array_get($config, $key, $default);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getKey()
+    {
+        return $this->config('encryption.key') ?: $this->getMd5Key();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMd5Key()
+    {
+        return Cache::remember('easywechat-composer.encryption_key', 30, function () {
+            throw_unless(file_exists($path = base_path('composer.lock')), RuntimeException::class, 'No encryption key provided.');
+
+            return md5_file($path);
+        });
     }
 }
