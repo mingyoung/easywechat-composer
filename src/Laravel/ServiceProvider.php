@@ -31,6 +31,16 @@ class ServiceProvider extends LaravelServiceProvider
         $this->publishes([
             __DIR__.'/config.php' => config_path('easywechat-composer.php'),
         ]);
+
+        EasyWeChat::setEncryptionKey(
+            $defaultKey = $this->getKey()
+        );
+
+        EasyWeChat::withDelegation()
+                    ->toHost($this->config('delegation.host'))
+                    ->ability($this->config('delegation.enabled'));
+
+        $this->app->when(DefaultEncrypter::class)->needs('$key')->give($defaultKey);
     }
 
     /**
@@ -49,16 +59,6 @@ class ServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->configure();
-
-        EasyWeChat::setEncryptionKey(
-            $defaultKey = $this->getKey()
-        );
-
-        EasyWeChat::withDelegation()
-                    ->toHost($this->config('delegation.host'))
-                    ->ability($this->config('delegation.enabled'));
-
-        $this->app->when(DefaultEncrypter::class)->needs('$key')->give($defaultKey);
     }
 
     /**
