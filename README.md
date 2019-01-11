@@ -5,8 +5,13 @@
 
 This is the composer plugin for [EasyWeChat](https://github.com/overtrue/wechat).
 
-[![Latest Stable Version](https://poser.pugx.org/easywechat-composer/easywechat-composer/v/stable.png)](https://packagist.org/packages/easywechat-composer/easywechat-composer)
-[![Total Downloads](https://poser.pugx.org/easywechat-composer/easywechat-composer/downloads.png)](https://packagist.org/packages/easywechat-composer/easywechat-composer)
+<p align="center">
+    <a href="https://travis-ci.org/mingyoung/easywechat-composer"><img src="https://travis-ci.org/mingyoung/easywechat-composer.svg" alt="Build Status"></a>
+    <a href="https://scrutinizer-ci.com/g/mingyoung/easywechat-composer/?branch=master"><img src="https://scrutinizer-ci.com/g/mingyoung/easywechat-composer/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"></a>
+    <a href="https://packagist.org/packages/easywechat-composer/easywechat-composer"><img src="https://poser.pugx.org/easywechat-composer/easywechat-composer/v/stable.svg" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/easywechat-composer/easywechat-composer"><img src="https://poser.pugx.org/easywechat-composer/easywechat-composer/d/total.svg" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/easywechat-composer/easywechat-composer"><img src="https://poser.pugx.org/easywechat-composer/easywechat-composer/license.svg" alt="License"></a>
+</p>
 
 Usage
 ---
