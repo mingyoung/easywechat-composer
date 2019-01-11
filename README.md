@@ -2,9 +2,6 @@
     <h1 align="center">EasyWeChat Composer Plugin</h1>
 </p>
 
-
-This is the composer plugin for [EasyWeChat](https://github.com/overtrue/wechat).
-
 <p align="center">
     <a href="https://travis-ci.org/mingyoung/easywechat-composer"><img src="https://travis-ci.org/mingyoung/easywechat-composer.svg" alt="Build Status"></a>
     <a href="https://scrutinizer-ci.com/g/mingyoung/easywechat-composer/?branch=master"><img src="https://scrutinizer-ci.com/g/mingyoung/easywechat-composer/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"></a>
