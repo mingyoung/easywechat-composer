@@ -68,7 +68,7 @@ class DelegationTo
      */
     public function __call($method, $arguments)
     {
-        $config = array_intersect_key($this->app->getConfig(), array_flip(['app_id', 'secret', 'token', 'aes_key', 'response_type']));
+        $config = array_intersect_key($this->app->getConfig(), array_flip(['app_id', 'secret', 'token', 'aes_key', 'response_type', 'component_app_id', 'refresh_token']));
 
         $data = [
             'config' => $config,
