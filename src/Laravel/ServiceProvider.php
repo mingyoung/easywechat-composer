@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace EasyWeChatComposer\Laravel;
 
 use EasyWeChatComposer\EasyWeChat;
+use Illuminate\Support\Arr;
 use EasyWeChatComposer\Encryption\DefaultEncrypter;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -87,7 +88,7 @@ class ServiceProvider extends LaravelServiceProvider
             return $config;
         }
 
-        return array_get($config, $key, $default);
+        return Arr::get($config, $key, $default);
     }
 
     /**
