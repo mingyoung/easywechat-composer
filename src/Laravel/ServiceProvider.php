@@ -87,7 +87,7 @@ class ServiceProvider extends LaravelServiceProvider
             return $config;
         }
 
-        return array_get($config, $key, $default);
+        return \Arr::get($config, $key, $default);
     }
 
     /**
