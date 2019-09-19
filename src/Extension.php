@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace EasyWeChatComposer;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
-use EasyWeChat\Kernel\ServiceContainer;
+use Pimple\Container;
 use ReflectionClass;
 
 class Extension
 {
     /**
-     * @var \EasyWeChat\Kernel\ServiceContainer
+     * @var \Pimple\Container
      */
     protected $app;
 
@@ -35,9 +35,9 @@ class Extension
     protected $manifest;
 
     /**
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
+     * @param \Pimple\Container $app
      */
-    public function __construct(ServiceContainer $app)
+    public function __construct(Container $app)
     {
         $this->app = $app;
         $this->manifestPath = __DIR__.'/../extensions.php';
